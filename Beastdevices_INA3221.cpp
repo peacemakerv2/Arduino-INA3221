@@ -49,9 +49,10 @@ void Beastdevices_INA3221::_write(ina3221_reg_t reg, uint16_t *val) {
     _i2c->endTransmission();
 }
 
-void Beastdevices_INA3221::begin(TwoWire *theWire) {
+bool Beastdevices_INA3221::begin(TwoWire *theWire, int sdaPin, int sclPin) {
     _i2c = theWire;
-
+    
+    // Initialize shunt resistors with default values
     _shuntRes[0] = 10;
     _shuntRes[1] = 10;
     _shuntRes[2] = 10;
@@ -60,7 +61,11 @@ void Beastdevices_INA3221::begin(TwoWire *theWire) {
     _filterRes[1] = 0;
     _filterRes[2] = 0;
 
-    _i2c->begin();
+    if (sdaPin != -1 && sclPin != -1) {
+        return _i2c->begin(sdaPin, sclPin);
+    } else {
+        return _i2c->begin();
+    }
 }
 
 void Beastdevices_INA3221::setShuntRes(uint32_t res_ch1, uint32_t res_ch2, uint32_t res_ch3) {
