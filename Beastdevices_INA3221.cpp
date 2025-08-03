@@ -62,7 +62,7 @@ bool Beastdevices_INA3221::begin(TwoWire *theWire, int sdaPin, int sclPin) {
     _filterRes[2] = 0;
 
     if (sdaPin != -1 && sclPin != -1) {
-        return _i2c->begin(sdaPin, sclPin);
+        return _i2c->begin(sdaPin, sclPin); //custom i2c pins
     } else {
         return _i2c->begin();
     }
@@ -514,7 +514,7 @@ float Beastdevices_INA3221::getVoltage(ina3221_ch_t channel) {
             break;
     }
 
-    _read(reg, &val_raw);
+	_read(reg, &val_raw);
 
     voltage_V = val_raw / 1000.0;
 
