@@ -156,7 +156,7 @@ public:
 
     Beastdevices_INA3221(ina3221_addr_t addr) : _i2c_addr(addr) {};
     // Initializes INA3221
-    void begin(TwoWire *theWire = &Wire);
+    bool begin(TwoWire *theWire, int sdaPin = -1, int sclPin = -1);
 
     // Sets shunt resistor value in mOhm
     void setShuntRes(uint32_t res_ch1, uint32_t res_ch2, uint32_t res_ch3);
